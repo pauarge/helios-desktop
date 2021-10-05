@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
@@ -8,12 +8,20 @@
     <title>Hello World!</title>
 </head>
 <body>
-<h1>Hello World!</h1>
-We are using Node.js <span id="node-version"></span>,
-Chromium <span id="chrome-version"></span>,
-and Electron <span id="electron-version"></span>.
 
-<p><a href="heliosbooth/vote.html">Booth</a></p>
+<h1>Welcome to Helios Client!</h1>
+
+<p>Demo url:</p>
+<p>https://vote.heliosvoting.org/helios/elections/e4ab2306-e2ee-11eb-ad86-16a0fda9e4ed</p>
+<p>http://localhost:8000/helios/elections/de28f03a-24e3-11ec-a544-acde48001122</p>
+
+<form id="election_initiator">
+    <p><label for="election_url">Election URL</label></p>
+    <p>
+        <input id="election_url" name="election_url" type="text" />
+    </p>
+    <p><button type="submit">Go</button> </p>
+</form>
 
 <script src="./renderer.js"></script>
 </body>

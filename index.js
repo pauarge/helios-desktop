@@ -12,14 +12,18 @@ function createWindow () {
     })
 
     win.loadFile('index.html')
+
+    // Debugging helpers
+    win.webContents.openDevTools()
+    win.maximize();
 }
 
 app.whenReady().then(() => {
-    createWindow()
+    createWindow();
 
     app.on('activate', function () {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
-    })
+    });
 })
 
 app.on('window-all-closed', function () {

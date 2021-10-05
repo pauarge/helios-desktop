@@ -409,8 +409,7 @@ BOOTH.so_lets_go = function () {
     BOOTH.setup_templates();
 
     // election URL
-    // var election_url = $.query.get('election_url');
-    var election_url = "https://vote.heliosvoting.org/helios/elections/e4ab2306-e2ee-11eb-ad86-16a0fda9e4ed";
+    var election_url = $.query.get('election_url');
     BOOTH.load_and_setup_election(election_url);
 };
 
