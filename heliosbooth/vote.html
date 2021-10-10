@@ -7,25 +7,7 @@
   <link rel="stylesheet" type="text/css" href="css/booth.css" />
   <link rel="stylesheet" type="text/css" href="css/forms.css" />
 
-<!--
-  <script language="javascript" src="js/jscrypto/class.js"></script>
-  <script language="javascript" src="js/jscrypto/bigint.dummy.js"></script>
-  <script language="javascript" src="js/jscrypto/jsbn.js"></script>
-  <script language="javascript" src="js/jscrypto/jsbn2.js"></script>
-  <script language="javascript" src="js/jscrypto/sjcl.js"></script>
-  <script language="javascript" src="js/underscore-min.js"></script>
-  <script language="javascript" src="js/jquery-1.2.2.min.js"></script>
-  <script language="javascript" src="js/jquery.query-2.1.5.js"></script>
-  <script language="javascript" src="js/jquery-jtemplates.js"></script>
-  <script language="javascript" src="js/jquery.json.min.js"></script>
-  <script language="javascript" src="js/jscrypto/bigint.js"></script>
-  <script language="javascript" src="js/jscrypto/random.js"></script>
-  <script language="javascript" src="js/jscrypto/elgamal.js"></script>
-  <script language="javascript" src="js/jscrypto/sha1.js"></script>
-  <script language="javascript" src="js/jscrypto/sha2.js"></script>
-  <script language="javascript" src="js/jscrypto/helios.js"></script>-->
-
-  <script language="javascript" src="js/20160507-helios-booth-compressed.js"></script>
+  <script src="js/20211010-helios-booth-compressed.js"></script>
 </head>
 
 <body>
@@ -370,22 +352,46 @@ BOOTH.show_encryption_message_before = function(func_to_execute) {
 
 BOOTH.load_and_setup_election = function(election_url) {
     // the hash will be computed within the setup function call now
-    $.get(election_url, function(raw_json) {
-        // let's also get the metadata
-        $.getJSON(election_url + "/meta", {}, function(election_metadata) {
-          BOOTH.election_metadata = election_metadata;
-          BOOTH.setup_election(raw_json, election_metadata);
-          BOOTH.show_election();
-          BOOTH.election_url = election_url;
-        });
+    $.ajax({
+        url: election_url,
+        method: "GET",
+        headers: {
+            "X-helios-voter": "pau",
+            "X-helios-voter-password": "KdVYU7BsAg"
+        },
+        success: function(raw_json) {
+            // let's also get the metadata
+            $.ajax({
+                url: election_url + "/meta",
+                method: "GET",
+                headers: {
+                    "X-helios-voter": "pau",
+                    "X-helios-voter-password": "KdVYU7BsAg"
+                },
+                success: function(election_metadata) {
+                    BOOTH.election_metadata = election_metadata;
+                    BOOTH.setup_election(raw_json, election_metadata);
+                    BOOTH.show_election();
+                    BOOTH.election_url = election_url;
+                }
+            })
+        }
     });
 
 
     if (USE_SJCL) {
-      // get more randomness from server
-      $.get(election_url + "/get-randomness", {}, function(raw_json) {
-        sjcl.random.addEntropy(JSON.parse(raw_json).randomness);
-      });
+        // get more randomness from server
+        $.ajax({
+            url: election_url + "/get-randomness",
+            method: "GET",
+            headers: {
+                "X-helios-voter": "pau",
+                "X-helios-voter-password": "KdVYU7BsAg"
+            },
+            success: function(json) {
+                sjcl.random.addEntropy(json.randomness);
+            }
+        });
     }
 };
 
