@@ -2,7 +2,6 @@
 <html lang="en-US">
 <head>
     <meta charset="UTF-8">
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
     <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
     <title>Helios Desktop Client</title>
@@ -17,9 +16,14 @@
 
 <form id="election_initiator">
     <p><label for="election_url">Election URL</label></p>
-    <p>
-        <input id="election_url" name="election_url" type="text" />
-    </p>
+    <p><input id="election_url" name="election_url" type="text" required /></p>
+
+    <p><label for="voter_id">Voter id</label></p>
+    <p><input id="voter_id" name="voter_id" type="text" required /></p>
+
+    <p><label for="voter_password">Voter Password</label></p>
+    <p><input id="voter_password" name="voter_password" type="password" required /></p>
+
     <p><button type="submit">Go</button> </p>
 </form>
 

@@ -22,7 +22,7 @@
 <div id="header">
 </div>
 
-<script language="javascript">
+<script type="text/javascript">
 // utils
 BOOTH = {};
 
@@ -356,8 +356,8 @@ BOOTH.load_and_setup_election = function(election_url) {
         url: election_url,
         method: "GET",
         headers: {
-            "X-helios-voter": "pau",
-            "X-helios-voter-password": "KdVYU7BsAg"
+            "X-helios-voter": localStorage.getItem('voter_id'),
+            "X-helios-voter-password": localStorage.getItem('voter_password')
         },
         success: function(raw_json) {
             // let's also get the metadata
@@ -365,8 +365,8 @@ BOOTH.load_and_setup_election = function(election_url) {
                 url: election_url + "/meta",
                 method: "GET",
                 headers: {
-                    "X-helios-voter": "pau",
-                    "X-helios-voter-password": "KdVYU7BsAg"
+                    "X-helios-voter": localStorage.getItem('voter_id'),
+                    "X-helios-voter-password": localStorage.getItem('voter_password')
                 },
                 success: function(election_metadata) {
                     BOOTH.election_metadata = election_metadata;
@@ -385,8 +385,8 @@ BOOTH.load_and_setup_election = function(election_url) {
             url: election_url + "/get-randomness",
             method: "GET",
             headers: {
-                "X-helios-voter": "pau",
-                "X-helios-voter-password": "KdVYU7BsAg"
+                "X-helios-voter": localStorage.getItem('voter_id'),
+                "X-helios-voter-password": localStorage.getItem('voter_password')
             },
             success: function(json) {
                 sjcl.random.addEntropy(json.randomness);
