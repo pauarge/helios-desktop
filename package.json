@@ -10,7 +10,7 @@
     "publish": "electron-forge publish",
     "lint": "eslint --ext .ts ."
   },
-  "author": "",
+  "author": "Pau Argelaguet",
   "license": "ISC",
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.61",
@@ -18,17 +18,16 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.61",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.61",
     "@electron-forge/maker-zip": "^6.0.0-beta.61",
-    "@typescript-eslint/eslint-plugin": "^4.0.1",
-    "@typescript-eslint/parser": "^4.0.1",
-    "css-loader": "^6.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.1.0",
+    "@typescript-eslint/parser": "^5.1.0",
+    "css-loader": "^6.4.0",
     "electron": "15.3.0",
-    "electron-reloader": "^1.2.1",
-    "eslint": "^7.6.0",
-    "eslint-plugin-import": "^2.20.0",
+    "eslint": "^8.1.0",
+    "eslint-plugin-import": "^2.25.2",
     "node-loader": "^2.0.0",
-    "style-loader": "^3.0.0",
-    "ts-loader": "^9.2.2",
-    "typescript": "^4.0.2"
+    "style-loader": "^3.3.1",
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.4.4"
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0"
@@ -40,7 +39,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "helios-desktop"
+            "name": "Helios Desktop"
           }
         },
         {
