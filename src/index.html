@@ -2,27 +2,50 @@
 <html lang="en-US">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Helios Desktop Client</title>
+    <link rel="stylesheet" href="css/bulma.min.css">
 </head>
 
 <body>
-<h1>Welcome to Helios Client!</h1>
+<section class="section">
+    <div class="container">
+        <h1 class="title">Welcome to Helios Desktop!</h1>
+        <p class="subtitle">Use this tool to vote securely over the Internet.</p>
 
-<p>Demo url:</p>
-<p>http://localhost:8000/helios/elections/de28f03a-24e3-11ec-a544-acde48001122</p>
+        <form id="election_initiator">
+            <div class="field">
+                <label class="label" for="election_url">Election URL</label>
+                <div class="control">
+                    <input class="input" id="election_url" name="election_url" type="text" required />
+                </div>
+            </div>
 
-<form id="election_initiator">
-    <p><label for="election_url">Election URL</label></p>
-    <p><input id="election_url" name="election_url" type="text" required /></p>
+            <div class="field">
+                <label class="label" for="voter_id">Voter ID</label>
+                <div class="control">
+                    <input class="input" id="voter_id" name="voter_id" type="text" required />
+                </div>
+            </div>
 
-    <p><label for="voter_id">Voter id</label></p>
-    <p><input id="voter_id" name="voter_id" type="text" required /></p>
+            <div class="field">
+                <label class="label" for="voter_password">Voter Password</label>
+                <div class="control">
+                    <input class="input" id="voter_password" name="voter_password" type="password" required />
+                </div>
+            </div>
 
-    <p><label for="voter_password">Voter Password</label></p>
-    <p><input id="voter_password" name="voter_password" type="password" required /></p>
+            <div class="field">
+                <button class="button is-primary" type="submit">Go</button>
+            </div>
+        </form>
 
-    <p><button type="submit">Go</button> </p>
-</form>
+        <hr />
+
+        <p>Demo url:</p>
+        <p>http://localhost:8000/helios/elections/de28f03a-24e3-11ec-a544-acde48001122</p>
+    </div>
+</section>
 
 <script src="../dist/renderer.js"></script>
 </body>
