@@ -471,7 +471,7 @@ BOOTH._after_ballot_encryption = function() {
     };
 
     var show_cast = function() {
-      $('#seal_div').processTemplate({'cast_url': BOOTH.election.cast_url,
+      $('#seal_div').processTemplate({'cast_url': BOOTH.election.cast_url + '_confirm',
         'encrypted_vote_json': BOOTH.encrypted_vote_json,
         'encrypted_vote_hash' : BOOTH.encrypted_ballot_hash,
         'election_uuid' : BOOTH.election.uuid,
@@ -592,7 +592,17 @@ BOOTH.cast_ballot = function() {
     BOOTH.started_p = false;
 
     // submit the form
-    $('#send_ballot_form').submit();
+    // helios-desktop change
+    // $('#send_ballot_form').submit();
+    let form = $('#send_ballot_form');
+    $.ajax({
+        type: "POST",
+        url: form.attr('action'),
+        data: form.serialize(),
+        success: function(data) {
+            window.location = '../success.html';
+        }
+    })
 };
 
 BOOTH.show_receipt = function() {
