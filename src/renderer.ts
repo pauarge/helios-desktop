@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
+    localStorage.clear();
+
     const form = document.getElementById('election_initiator');
     form.onsubmit = submit;
 
