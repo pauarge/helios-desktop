@@ -1,3 +1,10 @@
+const parseElectionURL = (rawUrl: string): string => {
+    if (rawUrl.endsWith('/')) {
+        return rawUrl.slice(0, -1);
+    }
+    return rawUrl;
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     localStorage.clear();
 
@@ -7,7 +14,9 @@ document.addEventListener("DOMContentLoaded", function() {
     function submit(event: Event) {
         event.preventDefault();
 
-        const election_url: string = (document.getElementById('election_url') as HTMLInputElement).value;
+        const raw_election_url: string = (document.getElementById('election_url') as HTMLInputElement).value;
+        const election_url: string = parseElectionURL(raw_election_url);
+
         const voter_id: string = (document.getElementById('voter_id') as HTMLInputElement).value;
         const voter_password: string = (document.getElementById('voter_password') as HTMLInputElement).value;
 
