@@ -479,7 +479,10 @@ BOOTH._after_ballot_encryption = function() {
         'election': BOOTH.election,
         'election_metadata': BOOTH.election_metadata,
         'questions' : BOOTH.election.questions,
-        'choices' : BALLOT.pretty_choices(BOOTH.election, BOOTH.ballot)});
+        'choices' : BALLOT.pretty_choices(BOOTH.election, BOOTH.ballot),
+        'voter_id' : localStorage.getItem('voter_id'),
+        'voter_password' : localStorage.getItem('voter_password')
+      });
       BOOTH.show($('#seal_div'));
       BOOTH.encrypted_vote_json = null;
     };

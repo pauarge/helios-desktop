@@ -24,8 +24,8 @@ According to the election definition file, this ballot will be submitted to:
 <form method="POST" onsubmit="BOOTH.do_done();" action="{$T.cast_url}" id="send_ballot_form" class="prettyform">
 <input type="hidden" name="election_uuid" value="{$T.election_uuid}" />
 <input type="hidden" name="election_hash" value="{$T.election_hash}" />
-<input type="hidden" name="helios_voter" value="pau" />
-<input type="hidden" name="helios_voter_password" value="KdVYU7BsAg" />
+<input type="hidden" name="helios_voter" value="{$T.voter_id}" />
+<input type="hidden" name="helios_voter_password" value="{$T.voter_password}" />
 <textarea name="encrypted_vote" style="display: none;">
 {$T.encrypted_vote_json}
 </textarea>
