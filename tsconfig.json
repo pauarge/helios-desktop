@@ -1,16 +1,17 @@
 {
     "compilerOptions": {
+        "esModuleInterop": true,
         "allowJs": true,
         "module": "commonjs",
         "noImplicitAny": true,
-        "sourceMap": true,
+        "sourceMap": false,
         "baseUrl": ".",
         "outDir": "dist",
         "moduleResolution": "node",
         "resolveJsonModule": true,
         "paths": {
             "*": ["node_modules/*"]
-        }
+        },
     },
     "include": [
         "src/**/*"

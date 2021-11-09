@@ -416,8 +416,8 @@ BOOTH.so_lets_go = function () {
 
     BOOTH.setup_templates();
 
-    // election URL
-    var election_url = $.query.get('election_url');
+    // election URL -- changed to force the local Tor Proxy
+    const election_url = "http://127.0.0.1:9051/helios/elections/ee38c1b6-3a6f-11ec-ba4f-9e9d7abbf550";
     BOOTH.load_and_setup_election(election_url);
 };
 
@@ -471,7 +471,8 @@ BOOTH._after_ballot_encryption = function() {
     };
 
     var show_cast = function() {
-      $('#seal_div').processTemplate({'cast_url': BOOTH.election.cast_url + '_confirm',
+      $('#seal_div').processTemplate({
+        'cast_url': BOOTH.election.election_url + '/cast_confirm',
         'encrypted_vote_json': BOOTH.encrypted_vote_json,
         'encrypted_vote_hash' : BOOTH.encrypted_ballot_hash,
         'election_uuid' : BOOTH.election.uuid,

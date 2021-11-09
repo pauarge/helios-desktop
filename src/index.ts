@@ -1,4 +1,5 @@
 import { app, BrowserWindow } from 'electron';
+import * as child from 'child_process';
 import * as path from 'path';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -7,6 +8,8 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
 }
 
 function createWindow () {
+    // child.exec("node dist/proxy.js");
+
     const mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
