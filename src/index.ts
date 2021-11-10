@@ -1,6 +1,7 @@
 import { app, BrowserWindow } from 'electron';
 import * as child from 'child_process';
 import * as path from 'path';
+import {run} from "./proxy";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
@@ -8,8 +9,7 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
 }
 
 function createWindow () {
-    child.exec( "tor" );
-    child.exec("node dist/proxy.js");
+    // child.exec( "tor" );
 
     const mainWindow = new BrowserWindow({
         width: 800,
@@ -28,6 +28,7 @@ function createWindow () {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', createWindow);
+app.on('ready', run);
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits

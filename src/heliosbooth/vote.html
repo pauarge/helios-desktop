@@ -357,19 +357,11 @@ BOOTH.load_and_setup_election = function(election_url) {
     $.ajax({
         url: election_url,
         method: "GET",
-        headers: {
-            "X-helios-voter": localStorage.getItem('voter_id'),
-            "X-helios-voter-password": localStorage.getItem('voter_password')
-        },
         success: function(raw_json) {
             // let's also get the metadata
             $.ajax({
                 url: election_url + "/meta",
                 method: "GET",
-                headers: {
-                    "X-helios-voter": localStorage.getItem('voter_id'),
-                    "X-helios-voter-password": localStorage.getItem('voter_password')
-                },
                 success: function(election_metadata) {
                     BOOTH.election_metadata = election_metadata;
                     BOOTH.setup_election(raw_json, election_metadata);
@@ -386,10 +378,6 @@ BOOTH.load_and_setup_election = function(election_url) {
         $.ajax({
             url: election_url + "/get-randomness",
             method: "GET",
-            headers: {
-                "X-helios-voter": localStorage.getItem('voter_id'),
-                "X-helios-voter-password": localStorage.getItem('voter_password')
-            },
             success: function(json) {
                 sjcl.random.addEntropy(json.randomness);
             }
@@ -417,7 +405,7 @@ BOOTH.so_lets_go = function () {
     BOOTH.setup_templates();
 
     // election URL -- changed to force the local Tor Proxy
-    const election_url = "http://127.0.0.1:9051/helios/elections/ee38c1b6-3a6f-11ec-ba4f-9e9d7abbf550";
+    const election_url = "http://127.0.0.1:9051";
     BOOTH.load_and_setup_election(election_url);
 };
 
@@ -481,8 +469,6 @@ BOOTH._after_ballot_encryption = function() {
         'election_metadata': BOOTH.election_metadata,
         'questions' : BOOTH.election.questions,
         'choices' : BALLOT.pretty_choices(BOOTH.election, BOOTH.ballot),
-        'voter_id' : localStorage.getItem('voter_id'),
-        'voter_password' : localStorage.getItem('voter_password')
       });
       BOOTH.show($('#seal_div'));
       BOOTH.encrypted_vote_json = null;

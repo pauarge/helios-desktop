@@ -7,12 +7,22 @@ const agent = new SocksProxyAgent({
     port: 9050,
 });
 
-const app = express();
+export const run = (): void => {
+    const app = express();
 
-app.use('/', createProxyMiddleware({
-    target: 'https://helios-server-tor.herokuapp.com',
-    changeOrigin: true,
-    // logLevel: "debug",
-    agent
-}));
-app.listen(9051);
+    app.use('/', createProxyMiddleware({
+        target: 'https://helios-server-tor.herokuapp.com/helios/elections/ee38c1b6-3a6f-11ec-ba4f-9e9d7abbf550',
+        changeOrigin: true,
+        logLevel: "debug",
+        pathRewrite: {
+            '^/': ''
+        },
+        onProxyReq: (proxyReq, req, res) => {
+            proxyReq.setHeader('X-helios-voter', 'pau');
+            proxyReq.setHeader('X-helios-voter-password', '2kMsyrVFpg')
+        }
+        // agent,
+    }));
+
+    app.listen(9051);
+}

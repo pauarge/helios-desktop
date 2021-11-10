@@ -20,9 +20,10 @@ document.addEventListener("DOMContentLoaded", function() {
         const voter_id: string = (document.getElementById('voter_id') as HTMLInputElement).value;
         const voter_password: string = (document.getElementById('voter_password') as HTMLInputElement).value;
 
+        localStorage.setItem('election_url', election_url);
         localStorage.setItem('voter_id', voter_id);
         localStorage.setItem('voter_password', voter_password);
 
-        window.location.replace(`heliosbooth/vote.html?election_url=${election_url}`);
+        window.location.replace(`heliosbooth/vote.html`);
     }
 });
