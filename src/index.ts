@@ -8,7 +8,8 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
 }
 
 function createWindow () {
-    // child.exec("node dist/proxy.js");
+    child.exec( "tor" );
+    child.exec("node dist/proxy.js");
 
     const mainWindow = new BrowserWindow({
         width: 800,

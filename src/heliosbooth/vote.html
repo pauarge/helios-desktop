@@ -472,7 +472,7 @@ BOOTH._after_ballot_encryption = function() {
 
     var show_cast = function() {
       $('#seal_div').processTemplate({
-        'cast_url': BOOTH.election.election_url + '/cast_confirm',
+        'cast_url': BOOTH.election_url + '/cast_confirm',
         'encrypted_vote_json': BOOTH.encrypted_vote_json,
         'encrypted_vote_hash' : BOOTH.encrypted_ballot_hash,
         'election_uuid' : BOOTH.election.uuid,

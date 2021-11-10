@@ -12,7 +12,7 @@ const app = express();
 app.use('/', createProxyMiddleware({
     target: 'https://helios-server-tor.herokuapp.com',
     changeOrigin: true,
-    logLevel: "debug",
+    // logLevel: "debug",
     agent
 }));
 app.listen(9051);
