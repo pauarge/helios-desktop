@@ -7,7 +7,7 @@ const agent = new SocksProxyAgent({
     port: 9050,
 });
 
-export const run = (): void => {
+export const runProxy = (): void => {
     const app = express();
 
     app.use('/', createProxyMiddleware({
@@ -20,8 +20,8 @@ export const run = (): void => {
         onProxyReq: (proxyReq, req, res) => {
             proxyReq.setHeader('X-helios-voter', 'pau');
             proxyReq.setHeader('X-helios-voter-password', '2kMsyrVFpg')
-        }
-        // agent,
+        },
+        agent,
     }));
 
     app.listen(9051);

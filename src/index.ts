@@ -1,48 +1,29 @@
-import { app, BrowserWindow } from 'electron';
-import * as child from 'child_process';
-import * as path from 'path';
-import {run} from "./proxy";
-
-// Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
-    app.quit();
-}
-
-function createWindow () {
-    // child.exec( "tor" );
-
-    const mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
-    })
-
-    // and load the index.html of the app.
-    mainWindow.loadFile(path.join(__dirname, '../src/index.html'));
-
-    // Open the DevTools.
-    mainWindow.webContents.openDevTools();
-    mainWindow.maximize();
-}
-
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
-app.on('ready', run);
-
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
-app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
-        app.quit();
+const parseElectionURL = (rawUrl: string): string => {
+    if (rawUrl.endsWith('/')) {
+        return rawUrl.slice(0, -1);
     }
-});
+    return rawUrl;
+}
 
-app.on('activate', () => {
-    // On OS X it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) {
-        createWindow();
+document.addEventListener("DOMContentLoaded", function() {
+    window.localStorage.clear();
+
+    const form = document.getElementById('election_initiator');
+    form.onsubmit = submit;
+
+    function submit(event: Event) {
+        event.preventDefault();
+
+        const raw_election_url: string = (document.getElementById('election_url') as HTMLInputElement).value;
+        const election_url: string = parseElectionURL(raw_election_url);
+
+        const voter_id: string = (document.getElementById('voter_id') as HTMLInputElement).value;
+        const voter_password: string = (document.getElementById('voter_password') as HTMLInputElement).value;
+
+        window.localStorage.setItem('election_url', election_url);
+        window.localStorage.setItem('voter_id', voter_id);
+        window.localStorage.setItem('voter_password', voter_password);
+
+        window.location.replace(`heliosbooth/vote.html`);
     }
 });
