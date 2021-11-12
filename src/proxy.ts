@@ -1,3 +1,4 @@
+import * as http from "http";
 import express from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { SocksProxyAgent } from 'socks-proxy-agent';
@@ -7,22 +8,22 @@ const agent = new SocksProxyAgent({
     port: 9050,
 });
 
-export const runProxy = (): void => {
+export const runProxy = (target: string, voter_id: string, voter_password: string, callback: () => void): http.Server => {
     const app = express();
 
     app.use('/', createProxyMiddleware({
-        target: 'https://helios-server-tor.herokuapp.com/helios/elections/ee38c1b6-3a6f-11ec-ba4f-9e9d7abbf550',
+        target,
         changeOrigin: true,
         logLevel: "debug",
         pathRewrite: {
             '^/': ''
         },
-        onProxyReq: (proxyReq, req, res) => {
-            proxyReq.setHeader('X-helios-voter', 'pau');
-            proxyReq.setHeader('X-helios-voter-password', '2kMsyrVFpg')
+        headers: {
+            'X-helios-voter': voter_id,
+            'X-helios-voter-password': voter_password,
         },
         agent,
     }));
 
-    app.listen(9051);
+    return app.listen(9051, callback);
 }

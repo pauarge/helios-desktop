@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import {app, BrowserWindow, ipcRenderer, ipcMain} from 'electron';
 import * as path from 'path';
 import {runProxy} from "./proxy";
 
@@ -12,6 +12,7 @@ function createWindow () {
         width: 800,
         height: 600,
         webPreferences: {
+            nodeIntegration: true,
             contextIsolation: false,
         }
     });
@@ -23,7 +24,14 @@ function createWindow () {
     mainWindow.webContents.openDevTools();
     mainWindow.maximize();
 
-    runProxy();
+    ipcMain.on('store-data', function (event, store) {
+        const target: string = store.target;
+        const voter_id: string = store.voter_id;
+        const voter_password: string = store.voter_password;
+        runProxy(target, voter_id, voter_password,() => {
+            mainWindow.webContents.send('redirect');
+        });
+    });
 }
 
 // This method will be called when Electron has finished

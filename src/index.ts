@@ -1,3 +1,6 @@
+const electron = window.require('electron');
+const ipcRenderer  = electron.ipcRenderer;
+
 const parseElectionURL = (rawUrl: string): string => {
     if (rawUrl.endsWith('/')) {
         return rawUrl.slice(0, -1);
@@ -14,16 +17,20 @@ document.addEventListener("DOMContentLoaded", function() {
     function submit(event: Event) {
         event.preventDefault();
 
-        const raw_election_url: string = (document.getElementById('election_url') as HTMLInputElement).value;
-        const election_url: string = parseElectionURL(raw_election_url);
+        const election_url: string = (document.getElementById('election_url') as HTMLInputElement).value;
+        const target: string = parseElectionURL(election_url);
 
         const voter_id: string = (document.getElementById('voter_id') as HTMLInputElement).value;
         const voter_password: string = (document.getElementById('voter_password') as HTMLInputElement).value;
 
-        window.localStorage.setItem('election_url', election_url);
-        window.localStorage.setItem('voter_id', voter_id);
-        window.localStorage.setItem('voter_password', voter_password);
-
-        window.location.replace(`heliosbooth/vote.html`);
+        ipcRenderer.send('store-data', {
+            target,
+            voter_id,
+            voter_password,
+        });
     }
+});
+
+ipcRenderer.on('redirect', () => {
+    window.location.replace(`heliosbooth/vote.html`);
 });
