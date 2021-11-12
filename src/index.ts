@@ -9,8 +9,6 @@ const parseElectionURL = (rawUrl: string): string => {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    window.localStorage.clear();
-
     const form = document.getElementById('election_initiator');
     form.onsubmit = submit;
 
