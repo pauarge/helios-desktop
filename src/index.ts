@@ -9,6 +9,8 @@ const parseElectionURL = (rawUrl: string): string => {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+    ipcRenderer.send('proxy-kill');
+
     const form = document.getElementById('election_initiator');
     form.onsubmit = submit;
 

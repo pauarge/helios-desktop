@@ -1,11 +1,14 @@
 import {app, BrowserWindow, ipcRenderer, ipcMain} from 'electron';
 import * as path from 'path';
 import {runProxy} from "./proxy";
+import http from "http";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
     app.quit();
 }
+
+let proxy: http.Server;
 
 function createWindow () {
     const mainWindow = new BrowserWindow({
@@ -28,9 +31,16 @@ function createWindow () {
         const target: string = store.target;
         const voter_id: string = store.voter_id;
         const voter_password: string = store.voter_password;
-        runProxy(target, voter_id, voter_password,() => {
+        proxy = runProxy(target, voter_id, voter_password,() => {
             mainWindow.webContents.send('redirect');
         });
+    });
+
+    ipcMain.on('proxy-kill', () => {
+        if (proxy != null) {
+            proxy.close();
+            proxy = null;
+        }
     });
 }
 
