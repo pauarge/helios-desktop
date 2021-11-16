@@ -7,6 +7,7 @@
   <link rel="stylesheet" type="text/css" href="css/booth.css" />
   <link rel="stylesheet" type="text/css" href="css/forms.css" />
 
+  <script type="application/javascript" src="js/jquery-1.12.4.min.js"></script>
   <script type="application/javascript" src="js/20211010-helios-booth-compressed.js"></script>
 </head>
 
@@ -422,7 +423,7 @@ BOOTH.nojava = function() {
 
 BOOTH.ready_p = false;
 
-$(document).ready(function() {
+document.addEventListener("DOMContentLoaded", function() {
     if (USE_SJCL) {
       sjcl.random.startCollectors();
     }
