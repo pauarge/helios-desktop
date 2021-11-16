@@ -21,6 +21,7 @@ export const runProxy = (target: string, voter_id: string, voter_password: strin
         headers: {
             'X-helios-voter': voter_id,
             'X-helios-voter-password': voter_password,
+            'X-noise': 'todo',
         },
         agent,
     }));
