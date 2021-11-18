@@ -1,3 +1,4 @@
+import * as crypto from "crypto";
 import * as http from "http";
 import express from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
@@ -14,14 +15,14 @@ export const runProxy = (target: string, voter_id: string, voter_password: strin
     app.use('/', createProxyMiddleware({
         target,
         changeOrigin: true,
-        logLevel: "debug",
+        logLevel: "info",
         pathRewrite: {
             '^/': ''
         },
         headers: {
             'X-helios-voter': voter_id,
             'X-helios-voter-password': voter_password,
-            'X-noise': 'todo',
+            'X-noise': crypto.randomBytes(Math.floor(Math.random() * 1024)).toString('hex'),
         },
         agent,
     }));
