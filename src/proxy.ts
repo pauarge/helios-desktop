@@ -3,10 +3,11 @@ import * as http from 'http';
 import express from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { SocksProxyAgent } from 'socks-proxy-agent';
+import { PROXY_PORT, TOR_HOST, TOR_PORT } from './constants';
 
 const agent = new SocksProxyAgent({
-	host: '127.0.0.1',
-	port: 9050,
+	host: TOR_HOST,
+	port: TOR_PORT,
 });
 
 export const runProxy = (
@@ -37,5 +38,5 @@ export const runProxy = (
 		})
 	);
 
-	return app.listen(9051, callback);
+	return app.listen(PROXY_PORT, callback);
 };

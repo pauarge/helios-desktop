@@ -1,3 +1,5 @@
+import { EVENT_PROXY_KILL, EVENT_STORE_DATA } from '../constants';
+
 const electron = window.require('electron');
 const ipcRenderer = electron.ipcRenderer;
 
@@ -9,12 +11,10 @@ const parseElectionURL = (rawUrl: string): string => {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-	ipcRenderer.send('proxy-kill');
+	ipcRenderer.send(EVENT_PROXY_KILL);
 
 	const form = document.getElementById('election_initiator');
-	form.onsubmit = submit;
-
-	function submit(event: Event) {
+	form.onsubmit = (event: Event) => {
 		event.preventDefault();
 
 		const electionUrl: string = (
@@ -29,12 +29,12 @@ document.addEventListener('DOMContentLoaded', function () {
 			document.getElementById('voter_password') as HTMLInputElement
 		).value;
 
-		ipcRenderer.send('store-data', {
+		ipcRenderer.send(EVENT_STORE_DATA, {
 			target,
 			voterId,
 			voterPassword,
 		});
-	}
+	};
 });
 
 ipcRenderer.on('redirect', () => {

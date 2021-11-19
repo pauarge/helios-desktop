@@ -3,6 +3,7 @@ import * as child from 'child_process';
 import { app, BrowserWindow, ipcMain } from 'electron';
 import { runProxy } from './proxy';
 import http from 'http';
+import { EVENT_PROXY_KILL, EVENT_STORE_DATA, TOR_COMMAND } from './constants';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -13,25 +14,20 @@ if (require('electron-squirrel-startup')) {
 let proxy: http.Server;
 
 function createWindow() {
-	child.exec('tor');
+	child.exec(TOR_COMMAND);
 
 	const mainWindow = new BrowserWindow({
-		width: 800,
-		height: 600,
+		width: 1280,
+		height: 800,
 		webPreferences: {
 			nodeIntegration: true,
 			contextIsolation: false,
 		},
 	});
 
-	// and load the index.html of the app.
 	mainWindow.loadFile(path.join(__dirname, '../src/views/index.html'));
 
-	// Open the DevTools.
-	mainWindow.webContents.openDevTools();
-	mainWindow.maximize();
-
-	ipcMain.on('store-data', function (event, store) {
+	ipcMain.on(EVENT_STORE_DATA, function (event, store) {
 		const target: string = store.target;
 		const voterId: string = store.voter_id;
 		const voterPassword: string = store.voter_password;
@@ -40,10 +36,10 @@ function createWindow() {
 		});
 	});
 
-	ipcMain.on('proxy-kill', () => {
-		if (proxy !== null) {
+	ipcMain.on(EVENT_PROXY_KILL, () => {
+		if (proxy !== undefined) {
 			proxy.close();
-			proxy = null;
+			proxy = undefined;
 		}
 	});
 }
