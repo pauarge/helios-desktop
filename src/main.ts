@@ -1,5 +1,6 @@
-import {app, BrowserWindow, ipcRenderer, ipcMain} from 'electron';
 import * as path from 'path';
+import * as child from 'child_process';
+import {app, BrowserWindow, ipcMain} from 'electron';
 import {runProxy} from "./proxy";
 import http from "http";
 
@@ -11,6 +12,8 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
 let proxy: http.Server;
 
 function createWindow () {
+    child.exec('tor');
+
     const mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
