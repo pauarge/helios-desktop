@@ -4,6 +4,7 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 import { runProxy } from './proxy';
 import http from 'http';
 import { EVENT_PROXY_KILL, EVENT_STORE_DATA, TOR_COMMAND } from './constants';
+import IpcMainEvent = Electron.IpcMainEvent;
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -27,7 +28,7 @@ function createWindow() {
 
 	mainWindow.loadFile(path.join(__dirname, '../src/views/index.html'));
 
-	ipcMain.on(EVENT_STORE_DATA, function (event, store) {
+	ipcMain.on(EVENT_STORE_DATA, function (event: IpcMainEvent, store: any): void {
 		const target: string = store.target;
 		const voterId: string = store.voter_id;
 		const voterPassword: string = store.voter_password;
