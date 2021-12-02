@@ -68,7 +68,7 @@ BOOTH.exit = function() {
         BOOTH.started_p = false;
 
         // helios-desktop change -- redirect to base electron instead of URL
-        window.location = "../views/index.html";
+        window.location = "../index.html";
     }
 };
 
@@ -358,21 +358,25 @@ BOOTH.load_and_setup_election = function(election_url) {
     $.ajax({
         url: election_url,
         method: "GET",
-        success: function(raw_json) {
-            // let's also get the metadata
-            $.ajax({
-                url: election_url + "/meta",
-                method: "GET",
-                success: function(election_metadata) {
-                    BOOTH.election_metadata = election_metadata;
-                    BOOTH.setup_election(raw_json, election_metadata);
-                    BOOTH.show_election();
-                    BOOTH.election_url = election_url;
-                }
-            })
+        complete: function(response) {
+            if (response.status === 200) {
+                // let's also get the metadata
+                $.ajax({
+                    url: election_url + "/meta",
+                    method: "GET",
+                    success: function(election_metadata) {
+                        BOOTH.election_metadata = election_metadata;
+                        BOOTH.setup_election(response, election_metadata);
+                        BOOTH.show_election();
+                        BOOTH.election_url = election_url;
+                    }
+                })
+            } else {
+                alert('Could not load the election.');
+                window.location = "../index.html";
+            }
         }
     });
-
 
     if (USE_SJCL) {
         // get more randomness from server

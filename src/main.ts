@@ -28,6 +28,9 @@ function createWindow() {
 
 	mainWindow.loadFile(path.join(__dirname, '../src/views/index.html'));
 
+	mainWindow.maximize();
+	mainWindow.webContents.openDevTools();
+
 	ipcMain.on(EVENT_STORE_DATA, function (event: IpcMainEvent, store: any): void {
 		const target: string = store.target;
 		const voterId: string = store.voter_id;
