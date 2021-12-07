@@ -18,6 +18,10 @@ export const runProxy = (
 ): http.Server => {
 	const app = express();
 
+	app.use((req, res, next) => {
+		setTimeout(next, Math.floor(Math.random() * 4096));
+	});
+
 	app.use(
 		'/',
 		createProxyMiddleware({
