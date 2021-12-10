@@ -175,8 +175,8 @@ BOOTH.setup_election = function(raw_json, election_metadata) {
     // initialize array so it is the identity permutation
     $(ordering).each(function(j, answer) {ordering[j]=j;});
 
-    // if we want reordering, then we shuffle the array
-    if (election_metadata && election_metadata.randomize_answer_order) {
+    // if we want reordering, at election or question level, then we shuffle the array
+    if ((election_metadata && election_metadata.randomize_answer_order) || question.randomize_answer_order) {
       shuffleArray(ordering);
     }
 
@@ -358,23 +358,18 @@ BOOTH.load_and_setup_election = function(election_url) {
     $.ajax({
         url: election_url,
         method: "GET",
-        complete: function(response) {
-            if (response.status === 200) {
-                // let's also get the metadata
-                $.ajax({
-                    url: election_url + "/meta",
-                    method: "GET",
-                    success: function(election_metadata) {
-                        BOOTH.election_metadata = election_metadata;
-                        BOOTH.setup_election(response, election_metadata);
-                        BOOTH.show_election();
-                        BOOTH.election_url = election_url;
-                    }
-                })
-            } else {
-                alert('Could not load the election.');
-                window.location = "../index.html";
-            }
+        success: function(raw_json) {
+            // let's also get the metadata
+            $.ajax({
+                url: election_url + "/meta",
+                method: "GET",
+                success: function(election_metadata) {
+                    BOOTH.election_metadata = election_metadata;
+                    BOOTH.setup_election(raw_json, election_metadata);
+                    BOOTH.show_election();
+                    BOOTH.election_url = election_url;
+                }
+            })
         }
     });
 
