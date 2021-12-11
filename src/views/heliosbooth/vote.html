@@ -148,9 +148,14 @@ BOOTH.setup_election = function(raw_json, election_metadata) {
   // appears to be safer.
   BOOTH.election = HELIOS.Election.fromJSONString(raw_json);
 
+  // Tweaks to get the same election hash
+  var parsed_json = JSON.stringify(raw_json);
+  parsed_json = parsed_json.replaceAll('":', '": ');
+  parsed_json = parsed_json.replaceAll(',', ', ');
+
   // FIXME: we shouldn't need to set both, but right now we are doing so
   // because different code uses each one. Bah. Need fixing.
-  BOOTH.election.hash = b64_sha256(raw_json);
+  BOOTH.election.hash = b64_sha256(parsed_json);
   BOOTH.election.election_hash = BOOTH.election.hash
 
   // async?
